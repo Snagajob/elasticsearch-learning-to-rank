@@ -18,8 +18,6 @@ def saveModel(es, scriptName, modelFname):
 
 
 
-
-
 if __name__ == "__main__":
     from elasticsearch import Elasticsearch
     from judgments import judgmentsFromFile, judgmentsByQid
