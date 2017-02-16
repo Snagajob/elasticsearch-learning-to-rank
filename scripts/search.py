@@ -30,7 +30,9 @@ if __name__ == "__main__":
     esUrl="http://localhost:9200"
     es = Elasticsearch(timeout=1000)
     search = featureQueries(argv[1])
+    print(search)
     results = es.search(index='tmdb', doc_type='movie', body=search)
     for result in results['hits']['hits']:
              print(result)
+
 

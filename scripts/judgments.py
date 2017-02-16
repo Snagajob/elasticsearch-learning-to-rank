@@ -1,6 +1,19 @@
+from __future__ import print_function
 import re
 
+
 class Judgment:
+    """
+    Class to represent rows in the judgement file, to be used as inputs to ranklib algorithms
+
+    A row of the judgement file contains a judgement score, a query id,
+    the searched keywords, and a list of features.
+
+    When printed out to Ranklib format, it looks like the line below:
+
+    "3 qid:1 1:1 2:1 3:0 4:0.2 5:0 # 1A"
+
+    """
     def __init__(self, grade, qid, keywords, docId):
         self.grade = grade
         self.qid = qid
@@ -64,7 +77,6 @@ def judgmentsByQid(judgments):
         except KeyError:
             rVal[judgment.qid] = [judgment]
     return rVal
-
 
 
 if __name__ == "__main__":

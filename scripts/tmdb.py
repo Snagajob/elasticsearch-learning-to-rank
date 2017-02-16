@@ -1,3 +1,7 @@
+"""
+This script downloads tmdb data using the tmdb api.
+"""
+from __future__ import print_function
 import requests
 import json
 import os
@@ -17,6 +21,11 @@ tmdb_api = requests.Session()
 tmdb_api.params={'api_key': tmdb_api_key}
 
 def movieList(linksFile='ml-20m/links.csv'):
+    """
+    Parse the mappings between
+    :param linksFile:
+    :return:
+    """
     import csv
     rdr = csv.reader(open(linksFile))
     tmdbIds = {}
@@ -43,12 +52,12 @@ def getCastAndCrew(movieId, movie):
         movie['cast'] = credits['cast'] #E
         movie['directors'] = directors
     except KeyError as e:
-        print e
-        print credits
+        print (e)
+        print (credits)
 
-def extract(movieIds=[]):
+def extract(movieIds={}):
     movieDict = {}
-    for idx, (mlensId, tmdbId) in enumerate(movieIds.iteritems()):
+    for idx, (mlensId, tmdbId) in enumerate(movieIds.items()):
         try:
             print("On %s / %s movies" % (idx, len(movieIds)))
             httpResp = tmdb_api.get("https://api.themoviedb.org/3/movie/%s"
@@ -61,9 +70,8 @@ def extract(movieIds=[]):
             getCastAndCrew(tmdbId, movie)
             movieDict[tmdbId] = movie
         except ConnectionError as e:
-            print e
+            print (e)
     return movieDict
-
 
 
 if __name__ == "__main__":

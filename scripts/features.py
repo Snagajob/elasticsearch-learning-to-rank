@@ -1,6 +1,7 @@
 """
-Gather relevance scores for given
+Functions to append features to the judgement file
 """
+from __future__ import print_function
 import json
 
 baseQuery = {
@@ -77,16 +78,19 @@ def buildFeaturesJudgmentsFile(judgmentsWithFeatures, filename):
                 judgmentFile.write(judgment.toRanklibFormat() + "\n")
 
 
-
-
 if __name__ == "__main__":
+
     from elasticsearch import Elasticsearch
     from judgments import judgmentsFromFile, judgmentsByQid
     esUrl="http://localhost:9200"
     es = Elasticsearch()
+    # create judgement file
     judgements = judgmentsByQid(judgmentsFromFile(filename='sample_judgements.txt'))
+    # append features
     kwDocFeatures(es, index='tmdb', searchType='movie', judgements=judgements)
+    # print the judgement file to screen
     for qid, judgmentList in judgements.items():
         for judgment in judgmentList:
             print(judgment.toRanklibFormat())
-
+    # write the judgement file out to a file
+    buildFeaturesJudgmentsFile(judgements, filename='sample_judgements_wfeatures.txt')

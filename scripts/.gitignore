@@ -1,0 +1,5 @@
+*.zip
+__pycache__/
+*.json
+readme.txt
+.ipynb_checkpoints/

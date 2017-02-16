@@ -27,3 +27,8 @@ eclipse-build
 !/.settings/org.eclipse.core.resources.prefs
 !/.settings/org.eclipse.jdt.core.prefs
 !/.settings/org.eclipse.jdt.ui.prefs
+
+//ignore data and model files downloaded/created in the root folder
+*.jar
+*.zip
+ml-20m/

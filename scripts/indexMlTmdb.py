@@ -1,12 +1,17 @@
+"""
+Functions to create an index on elastic search for tmdb data
+"""
+from __future__ import print_function
 import json
+import elasticsearch.helpers
 
 def enrich(movie):
     """ Enrich for search purposes """
     if 'title' in movie:
         movie['title_sent'] = 'SENTINEL_BEGIN ' + movie['title']
 
-def reindex(es, analysisSettings={}, mappingSettings={}, movieDict={}, index='tmdb', esUrl='http://localhost:9200'):
-    import elasticsearch.helpers
+def reindex(es, analysisSettings={}, mappingSettings={}, movieDict={}, index='tmdb'):
+
     settings = {
         "settings": {
             "number_of_shards": 1,
@@ -17,7 +22,7 @@ def reindex(es, analysisSettings={}, mappingSettings={}, movieDict={}, index='tm
     if mappingSettings:
         settings['mappings'] = mappingSettings #C
 
-    es.indices.delete(index, ignore=['400', '404'])
+    es.indices.delete(index, ignore=[400, 404])
     es.indices.create(index, body=settings)
 
     def bulkDocs(movieDict):
@@ -43,4 +48,4 @@ if __name__ == "__main__":
         esUrl = argv[1]
     es = Elasticsearch(esUrl, timeout=30)
     movieDict = json.loads(open('tmdb.json').read())
-    reindex(es, movieDict=movieDict, esUrl=esUrl)
+    reindex(es, movieDict=movieDict)
