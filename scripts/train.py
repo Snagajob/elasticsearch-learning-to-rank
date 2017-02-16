@@ -1,6 +1,7 @@
 """
 Functions to create the judgement file and train a LTR model
 """
+from __future__ import print_function
 import os
 from features import kwDocFeatures, buildFeaturesJudgmentsFile
 
